@@ -1,0 +1,9 @@
+{
+  "name": "my-first-ai",
+  "private": "true",
+  "workspaces": [
+    "projects/*"
+  ],
+  "version": "0.0.0",
+  "license": "MIT"
+}
