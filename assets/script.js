@@ -1,7 +1,7 @@
 const messages = [
   {
     role: 'user',
-    content: `You are a helpful assistant. You respond in less than 100 words.`
+    content: `You are a helpful assistant. You do not respond as 'User' or pretend to be 'User'. You respond as 'Assistant'. You respond in less than 100 words.`
   }
 ]
 
