@@ -1,6 +1,6 @@
 # My first Workers AI
 
-This is my first project using Workers AI.
+This is my first project using [Workers AI](https://developers.cloudflare.com/workers-ai/).
 
 ## Usage
 
@@ -12,9 +12,11 @@ npm run dev
 npm run deploy
 ```
 
-## Screenshot
+## Screen cast
 
-![output](https://github.com/yusukebe/my-first-workers-ai/assets/10682/84ccb024-c5e7-44c1-a743-c0a88ea22895)
+**1.5x speed.**
+
+![output](https://github.com/yusukebe/my-first-workers-ai/assets/10682/87195a39-67c3-4a33-8895-8cfed9c8982e)
 
 ## Author
 
