@@ -1,5 +1,9 @@
-name = "my-first-ai"
+name = "my-first-workers-ai"
 compatibility_date = "2023-09-20"
+
+rules = [
+  { type = "Text", globs = ["**/assets/*.js"], fallthrough = true },
+]
 
 [ai]
 binding = "AI"
