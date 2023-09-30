@@ -2,14 +2,10 @@
 
 This is my first project using [Workers AI](https://developers.cloudflare.com/workers-ai/).
 
-## Usage
+## Getting the starter
 
 ```txt
-git clone git@github.com:yusukebe/my-first-workers-ai.git
-cd my-first-workers-ai
-npm install 
-npm run dev
-npm run deploy
+npx degit 'yusukebe/my-first-workers-ai#starter' my-first-workers-ai
 ```
 
 ## Screen cast
