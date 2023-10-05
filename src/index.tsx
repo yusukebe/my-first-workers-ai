@@ -24,10 +24,7 @@ app.get('/script.js', (c) => {
   })
 })
 
-app.get('*', async (c, next) => {
-  c.setRenderer(renderer(c))
-  await next()
-})
+app.get('*', renderer)
 
 app.get('/', (c) => {
   return c.render(
