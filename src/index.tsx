@@ -57,7 +57,16 @@ app.post('/ai', async (c) => {
   const answer: Answer = await ai.run('@cf/meta/llama-2-7b-chat-int8', {
     messages
   })
-  const strings = [...answer.response]
+
+  const translationResponse: {
+    translated_text: string
+  } = await ai.run('@cf/meta/m2m100-1.2b', {
+    text: answer.response,
+    source_lang: 'english',
+    target_lang: 'japanese'
+  })
+
+  const strings = [...translationResponse.translated_text]
   return c.streamText(async (stream) => {
     for (const s of strings) {
       stream.write(s)
