@@ -54,14 +54,19 @@ app.get('/', (c) => {
 app.post('/ai', async (c) => {
   const { messages } = await c.req.json<{ messages: Message[] }>()
   const ai = new Ai(c.env.AI)
-  const answer: Answer = await ai.run('@cf/meta/llama-2-7b-chat-int8', {
-    messages
+
+  const aiStream = await ai.run('@cf/meta/llama-2-7b-chat-int8', {
+    messages,
+    stream: true
   })
-  const strings = [...answer.response]
+
+  const decoder = new TextDecoder()
+
   return c.streamText(async (stream) => {
-    for (const s of strings) {
-      stream.write(s)
-      await stream.sleep(10)
+    for await (const data of aiStream) {
+      const jsonText = decoder.decode(data)
+      const answer: Answer = JSON.parse(jsonText)
+      await stream.write(answer.response)
     }
   })
 })
