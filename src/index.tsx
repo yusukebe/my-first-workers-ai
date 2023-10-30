@@ -7,13 +7,9 @@ type Bindings = {
   AI: any
 }
 
-type Answer = {
-  response: string
-}
-
-type Message = {
+export type Message = {
   content: string
-  role: string
+  role: 'user' | 'system' | 'assistant'
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
@@ -37,8 +33,13 @@ app.get('/', (c) => {
           style={{
             width: '100%'
           }}
+          autofocus
         />
-        <button type="submit">Send</button>
+        <button id="button" type="submit">
+          Send
+        </button>
+        &nbsp;
+        <button onclick="event.preventDefault(); window.location.href='/'">Reload</button>
       </form>
       <h2>AI</h2>
       <pre
@@ -51,22 +52,25 @@ app.get('/', (c) => {
   )
 })
 
+const initialMessage: Message = {
+  role: 'system',
+  content: `You are a helpful assistant. You must not respond as 'User' or pretend to be 'User'. You must only respond once as 'Assistant' in less than 100 words.`
+}
+
 app.post('/ai', async (c) => {
   const { messages } = await c.req.json<{ messages: Message[] }>()
-  const ai = new Ai(c.env.AI)
+  messages.unshift(initialMessage)
 
-  const aiStream = await ai.run('@cf/meta/llama-2-7b-chat-int8', {
-    messages,
+  const ai = new Ai(c.env.AI)
+  const stream = await ai.run('@cf/meta/llama-2-7b-chat-int8', {
+    messages: messages,
     stream: true
   })
 
-  const decoder = new TextDecoder()
-
-  return c.streamText(async (stream) => {
-    for await (const data of aiStream) {
-      const jsonText = decoder.decode(data)
-      const answer: Answer = JSON.parse(jsonText)
-      await stream.write(answer.response)
+  return c.body(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Transfer-Encoding': 'chunked'
     }
   })
 })
