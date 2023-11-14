@@ -69,7 +69,7 @@ app.post('/ai', async (c) => {
 
   return c.body(stream, {
     headers: {
-      'Content-Type': 'text/event-stream',
+      'Content-Type': 'text/event-stream;charset=UTF-8',
       'Transfer-Encoding': 'chunked'
     }
   })

@@ -48,9 +48,9 @@ async function sendMessages(target) {
     chunk += data
     const splittedChunk = chunk.split('\n\n').filter((e) => !!e)
     if (splittedChunk.length <= 1) continue
-    if (splittedChunk.some((c) => c === 'data: [DONE]')) break
     chunk = ''
     for (c of splittedChunk) {
+      if (c === 'data: [DONE]') break
       const response = JSON.parse(c.split('data:')[1])['response']
       target.innerHTML += response
     }
